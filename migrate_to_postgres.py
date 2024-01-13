@@ -53,5 +53,9 @@ try:
     print("Data successfully migrated to Heroku Postgres")
 except Exception as e:
     print(f"Failed to write to Heroku Postgres: {e}")
+<<<<<<< HEAD
     exit(1)
     
+=======
+    exit(1)
+>>>>>>> 361a3e45b3d6b8649e235317c0f6f08e28261a60
