@@ -3,6 +3,7 @@ from dash import dcc, html
 import plotly.express as px
 import pandas as pd
 <<<<<<< HEAD
+<<<<<<< HEAD
 import psycopg2
 import os
 from datetime import datetime
@@ -11,6 +12,12 @@ import pytz
 from sqlalchemy import create_engine
 import os
 >>>>>>> 19837e2 (Updated Flask app to use Heroku Postgres)
+=======
+import os
+from datetime import datetime
+import pytz
+from sqlalchemy import create_engine
+>>>>>>> a10ce65 (Fix R10 boot timeout by binding to correct port and host)
 
 # Initialize Dash app
 app = dash.Dash(__name__)
@@ -33,12 +40,18 @@ def dashboard():
     df = pd.read_sql_query('SELECT * FROM bitcoin_prices_with_sentiment', engine)
 >>>>>>> 19837e2 (Updated Flask app to use Heroku Postgres)
 
+# Modify DATABASE_URL for SQLAlchemy (replace 'postgres://' with 'postgresql://')
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+# Create SQLAlchemy engine
+engine = create_engine(DATABASE_URL)
+
 def fetch_data():
-    """Fetch data from Heroku Postgres."""
+    """Fetch data from Heroku Postgres using SQLAlchemy."""
     try:
-        conn = psycopg2.connect(DATABASE_URL, sslmode="require")
-        df = pd.read_sql_query("SELECT * FROM bitcoin_prices_with_sentiment ORDER BY timestamp", conn)
-        conn.close()
+        # Use pandas with SQLAlchemy engine
+        df = pd.read_sql_query("SELECT * FROM bitcoin_prices_with_sentiment ORDER BY timestamp", engine)
         df["date"] = pd.to_datetime(df["timestamp"], unit="s")
         print(f"Fetched {len(df)} rows from database at {datetime.now(pytz.UTC)}. Latest timestamp: {df['timestamp'].iloc[-1] if not df.empty else 'N/A'}")
         return df
@@ -86,4 +99,6 @@ def update_graphs(n):
 
 # Run the app
 if __name__ == "__main__":
-    app.run(debug=True)
+    # For Heroku, bind to the correct port and host
+    port = int(os.getenv("PORT", 8050))  # Use Heroku's PORT or default to 8050 for local
+    app.run(host="0.0.0.0", port=port, debug=False)  # Bind to 0.0.0.0 and disable debug mode for Heroku
