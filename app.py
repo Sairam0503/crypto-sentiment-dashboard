@@ -28,6 +28,11 @@ def fetch_data():
     try:
         # Use pandas with SQLAlchemy engine
         df = pd.read_sql_query("SELECT * FROM bitcoin_prices_with_sentiment ORDER BY timestamp", engine)
+        # Ensure correct data types
+        df["timestamp"] = df["timestamp"].astype(int)
+        df["price"] = df["price"].astype(float)
+        df["volume"] = df["volume"].astype(float)
+        df["sentiment"] = df["sentiment"].astype(float)
         df["date"] = pd.to_datetime(df["timestamp"], unit="s")
         print(f"Fetched {len(df)} rows from database at {datetime.now(pytz.UTC)}. Latest timestamp: {df['timestamp'].iloc[-1] if not df.empty else 'N/A'}")
         return df
