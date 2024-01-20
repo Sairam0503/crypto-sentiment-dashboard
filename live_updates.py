@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 import time
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import pytz
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 import os
 
 # Reddit API credentials (replace with your own)
@@ -100,32 +100,39 @@ def update_database(data):
     """
     start_time = time.time()
     try:
-        # Create a DataFrame with the new data
-        df = pd.DataFrame([data])
-
-        # Check if a row for this timestamp already exists
         with engine.connect() as conn:
-            result = pd.read_sql_query(
-                "SELECT COUNT(*) FROM bitcoin_prices_with_sentiment WHERE timestamp = %s",
-                conn,
-                params=(data["timestamp"],)
-            )
-            exists = result.iloc[0, 0] > 0
+            # Check if a row for this timestamp already exists
+            query = text("SELECT COUNT(*) FROM bitcoin_prices_with_sentiment WHERE timestamp = :timestamp")
+            result = conn.execute(query, {"timestamp": data["timestamp"]}).scalar()
+            exists = result > 0
 
             if exists:
                 # Update existing row
-                conn.execute(
-                    """
+                update_query = text("""
                     UPDATE bitcoin_prices_with_sentiment
-                    SET price = %s, volume = %s, sentiment = %s
-                    WHERE timestamp = %s
-                    """,
-                    (data["price"], data["volume"], data["sentiment"], data["timestamp"])
-                )
+                    SET price = :price, volume = :volume, sentiment = :sentiment
+                    WHERE timestamp = :timestamp
+                """)
+                conn.execute(update_query, {
+                    "price": data["price"],
+                    "volume": data["volume"],
+                    "sentiment": data["sentiment"],
+                    "timestamp": data["timestamp"]
+                })
             else:
-                # Insert new row using pandas.to_sql
-                df.to_sql("bitcoin_prices_with_sentiment", conn, if_exists="append", index=False)
+                # Insert new row
+                insert_query = text("""
+                    INSERT INTO bitcoin_prices_with_sentiment (timestamp, price, volume, sentiment)
+                    VALUES (:timestamp, :price, :volume, :sentiment)
+                """)
+                conn.execute(insert_query, {
+                    "timestamp": data["timestamp"],
+                    "price": data["price"],
+                    "volume": data["volume"],
+                    "sentiment": data["sentiment"]
+                })
 
+            # Commit the transaction
             conn.commit()
         print(f"Updated database with timestamp {data['timestamp']}")
         print(f"update_database took {time.time() - start_time:.2f} seconds")
