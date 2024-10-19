@@ -58,4 +58,3 @@ else:
     # Save DataFrame to a CSV file
     df.to_csv('bitcoin_prices.csv', index=False)
     print("Data saved to bitcoin_prices.csv")
-    
