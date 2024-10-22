@@ -12,7 +12,7 @@ url = f'https://finnhub.io/api/v1/quote?symbol=BINANCE:BTCUSDT&token={api_key}'
 data_list = []
 
 # Collect data 5 times, with a 10-second pause between each request
-for i in range(5):
+for i in range(30):
     try:
         # Send request to API and retrieve data
         response = requests.get(url)
