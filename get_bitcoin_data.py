@@ -1,6 +1,7 @@
 import requests
 import pandas as pd
 import time
+import sqlite3
 
 # Finnhub API key for authentication
 api_key = 'cvg5uopr01qgvsqno7e0cvg5uopr01qgvsqno7eg'
@@ -11,7 +12,7 @@ url = f'https://finnhub.io/api/v1/quote?symbol=BINANCE:BTCUSDT&token={api_key}'
 # List to store collected data
 data_list = []
 
-# Collect data 5 times, with a 10-second pause between each request
+# Collect data 30 times, with a 10-second pause between each request
 for i in range(30):
     try:
         # Send request to API and retrieve data
@@ -55,6 +56,12 @@ else:
     # Convert list to a DataFrame for easy handling
     df = pd.DataFrame(data_list)
 
-    # Save DataFrame to a CSV file
+    # Save to CSV (for compatibility with existing scripts)
     df.to_csv('bitcoin_prices.csv', index=False)
     print("Data saved to bitcoin_prices.csv")
+
+    # Save to SQLite database
+    conn = sqlite3.connect('crypto_data.db')
+    df.to_sql('bitcoin_prices', conn, if_exists='replace', index=False)
+    conn.close()
+    print("Data saved to SQLite database (crypto_data.db)")
