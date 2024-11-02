@@ -9,3 +9,7 @@ A project to explore Bitcoin price trends and sentiment analysis.
   - Updated script to collect 30 Bitcoin price data points.
   - Added analysis script to calculate price statistics.
   - Generated mock sentiment data and visualized price vs. sentiment.
+
+  - Added SQLite database to store Bitcoin price and sentiment data.
+  - Calculated correlation between price and sentiment.
+  - Updated scripts to read from SQLite for analysis and visualization.
