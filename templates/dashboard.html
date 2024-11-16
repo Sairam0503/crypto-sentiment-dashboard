@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptocurrency Sentiment Dashboard</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Cryptocurrency Sentiment Dashboard</h1>
+        <h3 class="mt-4">Bitcoin Price and Sentiment Data</h3>
+        {{ data_table | safe }}
+
+        <h3 class="mt-4">Price vs. Sentiment Scatter Plot</h3>
+        <img src="{{ url_for('static', filename='scatter_price_sentiment.png') }}" alt="Scatter Price Sentiment Plot" class="img-fluid"><br>
+        <img src="{{ url_for('static', filename='price_sentiment_plot.png') }}" alt="Price Sentiment Plot" class="img-fluid"><br>
+        <img src="{{ url_for('static', filename='price_trends.png') }}" alt="Price Trends Plot" class="img-fluid">
+    </div>
+</body>
+</html>
