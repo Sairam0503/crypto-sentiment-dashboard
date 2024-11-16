@@ -6,17 +6,51 @@
     <title>Cryptocurrency Sentiment Dashboard</title>
     <!-- Bootstrap CSS for styling -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include jQuery for easier DOM manipulation -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Cryptocurrency Sentiment Dashboard</h1>
+
         <h3 class="mt-4">Bitcoin Price and Sentiment Data</h3>
+        <div class="mb-3">
+            <label for="dateRange" class="form-label">Filter by Date Range:</label>
+            <select id="dateRange" class="form-select" onchange="filterTable()">
+                <option value="all">All Data</option>
+                <option value="firstHalf">First 15 Data Points</option>
+                <option value="secondHalf">Last 15 Data Points</option>
+            </select>
+        </div>
         {{ data_table | safe }}
 
         <h3 class="mt-4">Price vs. Sentiment Scatter Plot</h3>
-        <img src="{{ url_for('static', filename='scatter_price_sentiment.png') }}" alt="Scatter Price Sentiment Plot" class="img-fluid"><br>
-        <img src="{{ url_for('static', filename='price_sentiment_plot.png') }}" alt="Price Sentiment Plot" class="img-fluid"><br>
-        <img src="{{ url_for('static', filename='price_trends.png') }}" alt="Price Trends Plot" class="img-fluid">
+        <img src="{{ url_for('static', filename='scatter_price_sentiment.png') }}" alt="Scatter Plot" class="img-fluid">
     </div>
+
+    <script>
+        function filterTable() {
+            const select = document.getElementById('dateRange');
+            const value = select.value;
+            const table = document.querySelector('table');
+            const rows = table.getElementsByTagName('tr');
+
+            // Skip the header row (index 0)
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+                const rowIndex = i - 1; // Adjust for header row
+
+                if (value === 'all') {
+                    row.style.display = '';
+                } else if (value === 'firstHalf' && rowIndex < 15) {
+                    row.style.display = '';
+                } else if (value === 'secondHalf' && rowIndex >= 15) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        }
+    </script>
 </body>
 </html>
