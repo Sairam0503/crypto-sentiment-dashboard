@@ -17,3 +17,6 @@ A project to explore Bitcoin price trends and sentiment analysis.
   Created a scatter plot with a trendline to visualize price vs. sentiment.
   - Built a linear regression model to predict Bitcoin prices based on sentiment.
   - Updated README with project overview, key findings, and visualizations.
+
+  Performed time-series analysis with a moving average to identify price trends.
+  - Built a simple web dashboard using Flask to display data and visualizations.
