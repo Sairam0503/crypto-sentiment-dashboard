@@ -18,5 +18,8 @@ A project to explore Bitcoin price trends and sentiment analysis.
   - Built a linear regression model to predict Bitcoin prices based on sentiment.
   - Updated README with project overview, key findings, and visualizations.
 
-  Performed time-series analysis with a moving average to identify price trends.
+  - Performed time-series analysis with a moving average to identify price trends.
   - Built a simple web dashboard using Flask to display data and visualizations.
+
+  - Added interactivity to the web dashboard with JavaScript (dropdown to filter data).
+  - Deployed the Flask app to Heroku (note: SQLite database not supported in production; requires further configuration).
