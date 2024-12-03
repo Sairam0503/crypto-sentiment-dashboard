@@ -2,9 +2,10 @@ import requests
 import pandas as pd
 import time
 import sqlite3
+from datetime import datetime, timedelta
 
 # Finnhub API key for authentication
-api_key = 'cvg5uopr01qgvsqno7e0cvg5uopr01qgvsqno7eg'
+api_key = 'cvhhqcpr01qgkck3vkl0cvhhqcpr01qgkck3vklg'
 
 # URL to fetch Bitcoin price data (BTC/USDT) from Finnhub
 url = f'https://finnhub.io/api/v1/quote?symbol=BINANCE:BTCUSDT&token={api_key}'
@@ -12,7 +13,8 @@ url = f'https://finnhub.io/api/v1/quote?symbol=BINANCE:BTCUSDT&token={api_key}'
 # List to store collected data
 data_list = []
 
-# Collect data 30 times, with a 10-second pause between each request
+# Simulate collecting 1 data point per day for 30 days (Nov 3, 2024 to Dec 2, 2024)
+start_date = datetime(2024, 11, 3)  # Start date: November 3, 2024
 for i in range(30):
     try:
         # Send request to API and retrieve data
@@ -27,8 +29,9 @@ for i in range(30):
         # Extract current price
         price = data.get('c', 0)  # Current price, default to 0 if missing
 
-        # Use the current system time as the timestamp
-        timestamp = int(time.time())  # Current time in seconds
+        # Calculate the timestamp for the current day
+        simulated_date = start_date + timedelta(days=i)
+        timestamp = int(simulated_date.timestamp())
 
         # Only add data if price is valid (not 0)
         if price == 0:
@@ -39,9 +42,9 @@ for i in range(30):
         data_list.append({'timestamp': timestamp, 'price': price})
 
         # Display progress
-        print(f"Collected price: {price} at timestamp: {timestamp}")
+        print(f"Collected price: {price} at timestamp: {timestamp} (date: {simulated_date})")
 
-        # Wait 10 seconds to respect API rate limits
+        # Wait 10 seconds for testing (in production, this would be 24 hours/86400 seconds)
         time.sleep(10)
 
     except Exception as e:
@@ -56,11 +59,11 @@ else:
     # Convert list to a DataFrame for easy handling
     df = pd.DataFrame(data_list)
 
-    # Save to CSV (for compatibility with existing scripts)
+    # Save to CSV
     df.to_csv('bitcoin_prices.csv', index=False)
     print("Data saved to bitcoin_prices.csv")
 
-    # Save to SQLite database
+    # Save to SQLite database (replace existing data)
     conn = sqlite3.connect('crypto_data.db')
     df.to_sql('bitcoin_prices', conn, if_exists='replace', index=False)
     conn.close()
