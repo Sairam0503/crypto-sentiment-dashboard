@@ -1,36 +1,31 @@
-timestamp,sentiment,post_title
-1742929611,0.2023,"This EU Travel Rule blocked my OKX BTC deposit for good, any ideas to recover?"
-1742927950,0.0,Why Money in the Bank Isn't Really Money
-1742927692,-0.34,"We’ve just open sourced the BCB100 on GitHub 🔥
-
-The Braiins Control Board is now officially the Bitcoin Control Board."
-1742927463,0.5574,A positive Bitcoin Mining Story on the BBC
-1742927142,0.0,"Will (Micro)Strategy Realistically Surpass $1,000 - Data Analysis"
-1742926248,0.0,DCA for Canadians
-1742925109,0.0,"Your move, Mastercard. (Bitcoin lightning ring payment)"
-1742922492,0.0,Comparison: Green vs. Nunchuck wallets with Jade device
-1742921637,-0.6776,"""There is only one universally acknowledged digital commodity in the world. There's Bitcoin.
-There is no second best. I've spent 33 Billion based on that"""
-1742921606,0.0,Bitcoin or Roth IRA
-1742919897,0.0,That’s a lot of cheddar 🧀
-1742918181,0.0,A Quick Questionnaire
-1742916684,0.0,What would it take to bring everyday users to Bitcoin?
-1742916544,-0.296,MtGox didn't contact me and now I am missing out on my 500 million in Bitcoin
-1742915833,0.0,"Bitcoin to $107,000"
-1742915558,0.0,If Bitcoin supply was evenly distributed
-1742915170,0.6369,"The best name I could give the pattern of the last two weeks going up 3k, down 2K, up 2k, down 3 would be ""Pussyfoot"""
-1742914409,-0.4767,FAKE MONEY THAT CAN'T BE FAKED
-1742913784,0.0,"NEW: 🇺🇸 Oklahoma's HB1203, allowing up to 10% public fund investment in Bitcoin, passed by the House 77-15."
-1742913135,0.0,"Bill to self-custody #Bitcoin and crypto has been signed into law in Kentucky.
-
-America is embracing Bitcoin 🙌"
-1742912886,0.0,Kentucky HB 701 (BTC) passes House and Senate
-1742912700,0.0,BlackRock launches first bitcoin product in Europe
-1742911240,0.1027,"KULR Expands Bitcoin Holdings to 668 BTC, Reports 181.1% BTC Yield"
-1742909106,0.0,The Bitcoin Matrix
-1742907886,0.0,Bitcoin bottom predictions?
-1742905721,0.765,"multi-wallet approach, what is the best secure setup?"
-1742902917,-0.1779,"🇬🇧 A man in the UK was blocked from withdrawing £2,500 of his own money to buy a motorbike. Legally, when you deposit money into a bank, you’re lending it to them. The bank owns it now, not you. Study Bitcoin."
-1742902718,0.0,Bitcoin shines a very different light when you understand what happened in China
-1742902279,0.0,[Advice Needed] Selling BTC to Cover House Renovation Costs
-1742899404,0.0,How to change the download location of Bitcoin Blockchain?
+timestamp,sentiment
+1730610000,-0.4588
+1730700000,0.7184
+1730786400,0.2732
+1730872800,0.0
+1730959200,0.0
+1731045600,0.5106
+1731132000,0.0
+1731218400,0.0
+1731304800,-0.34
+1731391200,0.5574
+1731477600,0.0
+1731564000,0.0
+1731650400,0.0
+1731736800,-0.6776
+1731823200,0.0
+1731909600,0.0
+1731996000,0.0
+1732082400,0.0
+1732168800,-0.296
+1732255200,0.0
+1732341600,0.0
+1732428000,0.6369
+1732514400,-0.4767
+1732600800,0.0
+1732687200,0.0
+1732773600,0.0
+1732860000,0.0
+1732946400,0.1027
+1733032800,0.0
+1733119200,0.0
