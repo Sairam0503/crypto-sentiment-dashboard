@@ -54,3 +54,4 @@ try:
 except Exception as e:
     print(f"Failed to write to Heroku Postgres: {e}")
     exit(1)
+    
