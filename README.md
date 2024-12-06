@@ -27,4 +27,7 @@ A project to explore Bitcoin price trends and sentiment analysis.
 
  - Scraped real sentiment data from r/Bitcoin on Reddit and replaced mock data.
   - Implemented an ARIMA model to forecast Bitcoin prices.
-  - Created a final presentation to showcase the project.
+
+  - Collected daily Bitcoin price data for 30 days (1 data point per day).
+  - Updated sentiment data to match the new daily Bitcoin prices.
+  - Configured the Flask app to use Heroku Postgres for production deployment.
