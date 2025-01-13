@@ -3,68 +3,96 @@ import pandas as pd
 import time
 import sqlite3
 from datetime import datetime, timedelta
+import pytz
 
-# Finnhub API key for authentication
-api_key = 'cvhhqcpr01qgkck3vkl0cvhhqcpr01qgkck3vklg'
+def fetch_bitcoin_data(start_date, end_date):
+    """
+    Fetch Bitcoin price and volume data from CryptoCompare API for each day in the specified date range.
+    Returns a list of dictionaries with timestamp, price, and volume.
+    """
+    data_list = []
+    session = requests.Session()
 
-# URL to fetch Bitcoin price data (BTC/USDT) from Finnhub
-url = f'https://finnhub.io/api/v1/quote?symbol=BINANCE:BTCUSDT&token={api_key}'
+    # CryptoCompare API endpoint for historical daily data
+    fsym = "BTC"
+    tsym = "USD"
+    limit = 2000  # Maximum number of data points per request
 
-# List to store collected data
-data_list = []
+    # Convert dates to timestamps
+    start_timestamp = int(start_date.timestamp())
+    end_timestamp = int(end_date.timestamp())
 
-# Simulate collecting 1 data point per day for 30 days (Nov 3, 2024 to Dec 2, 2024)
-start_date = datetime(2024, 11, 3)  # Start date: November 3, 2024
-for i in range(30):
+    # CryptoCompare API requires the 'toTs' parameter (end timestamp)
+    url = f"https://min-api.cryptocompare.com/data/v2/histoday?fsym={fsym}&tsym={tsym}&limit={limit}&toTs={end_timestamp}"
+
     try:
-        # Send request to API and retrieve data
-        response = requests.get(url)
+        response = session.get(url)
+        response.raise_for_status()  # Raises an HTTPError for bad responses
         data = response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching data from CryptoCompare: {e}")
+        return data_list
 
-        # Check if the response contains an error
-        if 'error' in data:
-            print(f"Error from API: {data['error']}")
-            break
+    # Check if the response contains data
+    if data["Response"] != "Success" or not data["Data"]["Data"]:
+        print("No data returned from CryptoCompare. Check the symbol or date range.")
+        return data_list
 
-        # Extract current price
-        price = data.get('c', 0)  # Current price, default to 0 if missing
+    # Extract daily data
+    for entry in data["Data"]["Data"]:
+        timestamp = entry["time"]  # Timestamp in seconds
+        close_price = entry["close"]  # Closing price
+        volume = entry["volumeto"]  # Volume (in USD)
 
-        # Calculate the timestamp for the current day
-        simulated_date = start_date + timedelta(days=i)
-        timestamp = int(simulated_date.timestamp())
+        # Only include data within the requested date range
+        if start_timestamp <= timestamp <= end_timestamp:
+            data_list.append({
+                "timestamp": timestamp,
+                "price": close_price,
+                "volume": volume
+            })
 
-        # Only add data if price is valid (not 0)
-        if price == 0:
-            print("Invalid price received (price is 0), skipping...")
-            break
+    return data_list
 
-        # Append data to the list
-        data_list.append({'timestamp': timestamp, 'price': price})
+def main():
+    # Define the date range (last 30 days from today, March 25, 2025)
+    end_date = datetime.now(pytz.UTC).replace(hour=0, minute=0, second=0, microsecond=0)
+    start_date = end_date - timedelta(days=30)  # 30 days before today
 
-        # Display progress
-        print(f"Collected price: {price} at timestamp: {timestamp} (date: {simulated_date})")
+    # Fetch data from CryptoCompare
+    print(f"Fetching Bitcoin data from {start_date} to {end_date}...")
+    data_list = fetch_bitcoin_data(start_date, end_date)
 
-        # Wait 10 seconds for testing (in production, this would be 24 hours/86400 seconds)
-        time.sleep(10)
+    # Check if we collected any data
+    if not data_list:
+        print("No valid data collected. Please check the API or date range.")
+        return
 
-    except Exception as e:
-        # Handle any unexpected errors
-        print(f"An error occurred: {e}")
-        break
-
-# Check if we collected any data
-if not data_list:
-    print("No valid data collected. Please check the API or symbol.")
-else:
     # Convert list to a DataFrame for easy handling
     df = pd.DataFrame(data_list)
 
+    # Sort by timestamp to ensure chronological order
+    df = df.sort_values("timestamp")
+
+    # Display collected data
+    print("Collected data:")
+    print(df)
+
     # Save to CSV
-    df.to_csv('bitcoin_prices.csv', index=False)
-    print("Data saved to bitcoin_prices.csv")
+    try:
+        df.to_csv('bitcoin_prices.csv', index=False)
+        print("Data saved to bitcoin_prices.csv")
+    except Exception as e:
+        print(f"Error saving to CSV: {e}")
 
     # Save to SQLite database (replace existing data)
-    conn = sqlite3.connect('crypto_data.db')
-    df.to_sql('bitcoin_prices', conn, if_exists='replace', index=False)
-    conn.close()
-    print("Data saved to SQLite database (crypto_data.db)")
+    try:
+        conn = sqlite3.connect('crypto_data.db')
+        df.to_sql('bitcoin_prices', conn, if_exists='replace', index=False)
+        conn.close()
+        print("Data saved to SQLite database (crypto_data.db)")
+    except sqlite3.Error as e:
+        print(f"Error saving to SQLite: {e}")
+
+if __name__ == "__main__":
+    main()
