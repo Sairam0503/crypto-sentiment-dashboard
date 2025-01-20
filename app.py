@@ -2,43 +2,16 @@ import dash
 from dash import dcc, html
 import plotly.express as px
 import pandas as pd
-<<<<<<< HEAD
-<<<<<<< HEAD
-import psycopg2
-import os
-from datetime import datetime
-import pytz
-=======
-from sqlalchemy import create_engine
-import os
->>>>>>> 19837e2 (Updated Flask app to use Heroku Postgres)
-=======
 import os
 from datetime import datetime
 import pytz
 from sqlalchemy import create_engine
->>>>>>> a10ce65 (Fix R10 boot timeout by binding to correct port and host)
 
 # Initialize Dash app
 app = dash.Dash(__name__)
 
-<<<<<<< HEAD
 # Heroku Postgres connection
 DATABASE_URL = os.getenv("DATABASE_URL", "postgres://udn385mh2lkpp:p3ac1a38bd616e39abcb85bb86071b30e5ec6c49de222fa4fd5e518530e652d10@cbec45869p4jbu.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/db6st1ghre0bl6")
-=======
-# Get the DATABASE_URL from environment variables (set by Heroku)
-DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///crypto_data.db')
-if DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
-
-# Create SQLAlchemy engine
-engine = create_engine(DATABASE_URL)
-
-@app.route('/')
-def dashboard():
-    # Load data from Postgres
-    df = pd.read_sql_query('SELECT * FROM bitcoin_prices_with_sentiment', engine)
->>>>>>> 19837e2 (Updated Flask app to use Heroku Postgres)
 
 # Modify DATABASE_URL for SQLAlchemy (replace 'postgres://' with 'postgresql://')
 if DATABASE_URL.startswith("postgres://"):
@@ -61,7 +34,13 @@ def fetch_data():
         df["volume"] = df["volume"].astype(float)
         df["sentiment"] = df["sentiment"].astype(float)
         df["date"] = pd.to_datetime(df["timestamp"], unit="s")
-        print(f"Fetched {len(df)} rows from database at {datetime.now(pytz.UTC)}. Latest timestamp: {df['timestamp'].iloc[-1] if not df.empty else 'N/A'}")
+        # Log the latest data for debugging
+        if not df.empty:
+            latest_row = df.iloc[-1]
+            print(f"Fetched {len(df)} rows from database at {datetime.now(pytz.UTC)}. Latest timestamp: {df['timestamp'].iloc[-1]}")
+            print(f"Latest data: timestamp={latest_row['timestamp']}, price={latest_row['price']}, sentiment={latest_row['sentiment']}")
+        else:
+            print("No data fetched from database.")
         return df
     except Exception as e:
         print(f"Error fetching data from Heroku Postgres: {e}")
@@ -95,10 +74,14 @@ def update_graphs(n):
     # Price graph
     price_fig = px.line(df, x="date", y="price", title="Bitcoin Price Over Time")
     price_fig.update_layout(transition_duration=500)  # Smooth transition for updates
+    # Ensure y-axis range is appropriate
+    price_fig.update_yaxes(range=[df["price"].min() * 0.95, df["price"].max() * 1.05])
 
     # Sentiment graph
     sentiment_fig = px.line(df, x="date", y="sentiment", title="Reddit Sentiment Over Time")
     sentiment_fig.update_layout(transition_duration=500)  # Smooth transition for updates
+    # Ensure y-axis range is appropriate
+    sentiment_fig.update_yaxes(range=[-1, 1])  # Sentiment should be between -1 and 1
 
     # Last updated timestamp in CDT
     last_updated = f"Last updated: {datetime.now(pytz.UTC).astimezone(cdt).strftime('%Y-%m-%d %I:%M:%S %p CDT')}"
