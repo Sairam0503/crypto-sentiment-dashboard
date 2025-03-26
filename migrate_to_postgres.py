@@ -53,5 +53,9 @@ try:
     print("Data successfully migrated to Heroku Postgres")
 except Exception as e:
     print(f"Failed to write to Heroku Postgres: {e}")
+<<<<<<< HEAD
     exit(1)
     
+=======
+    exit(1)
+>>>>>>> 19837e2 (Updated Flask app to use Heroku Postgres)

@@ -2,16 +2,36 @@ import dash
 from dash import dcc, html
 import plotly.express as px
 import pandas as pd
+<<<<<<< HEAD
 import psycopg2
 import os
 from datetime import datetime
 import pytz
+=======
+from sqlalchemy import create_engine
+import os
+>>>>>>> 19837e2 (Updated Flask app to use Heroku Postgres)
 
 # Initialize Dash app
 app = dash.Dash(__name__)
 
+<<<<<<< HEAD
 # Heroku Postgres connection
 DATABASE_URL = os.getenv("DATABASE_URL", "postgres://udn385mh2lkpp:p3ac1a38bd616e39abcb85bb86071b30e5ec6c49de222fa4fd5e518530e652d10@cbec45869p4jbu.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/db6st1ghre0bl6")
+=======
+# Get the DATABASE_URL from environment variables (set by Heroku)
+DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///crypto_data.db')
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+# Create SQLAlchemy engine
+engine = create_engine(DATABASE_URL)
+
+@app.route('/')
+def dashboard():
+    # Load data from Postgres
+    df = pd.read_sql_query('SELECT * FROM bitcoin_prices_with_sentiment', engine)
+>>>>>>> 19837e2 (Updated Flask app to use Heroku Postgres)
 
 def fetch_data():
     """Fetch data from Heroku Postgres."""
