@@ -55,7 +55,7 @@ def fetch_bitcoin_data(start_date, end_date):
     return data_list
 
 def main():
-    # Define the date range (last 30 days from today, March 25, 2025)
+    # Define the date range (last 30 days from today)
     end_date = datetime.now(pytz.UTC).replace(hour=0, minute=0, second=0, microsecond=0)
     start_date = end_date - timedelta(days=30)  # 30 days before today
 
