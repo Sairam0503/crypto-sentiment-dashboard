@@ -20,8 +20,8 @@ if DATABASE_URL.startswith("postgres://"):
 # Create SQLAlchemy engine
 engine = create_engine(DATABASE_URL)
 
-# Define CDT timezone
-cdt = pytz.timezone("America/Chicago")
+# Define utc timezone
+utc = pytz.utc
 
 def fetch_data():
     """Fetch data from Heroku Postgres using SQLAlchemy."""
@@ -68,7 +68,7 @@ def update_graphs(n):
     if df.empty:
         print("No data available to plot.")
         empty_fig = {"data": [], "layout": {"title": "No Data Available"}}
-        last_updated = f"Last updated: {datetime.now(pytz.UTC).astimezone(cdt).strftime('%Y-%m-%d %I:%M:%S %p CDT')} (No data)"
+        last_updated = f"Last updated: {datetime.now(pytz.UTC).astimezone(utc).strftime('%Y-%m-%d %I:%M:%S %p UTC')} (No data)"
         return empty_fig, empty_fig, last_updated
 
     # Price graph
@@ -83,8 +83,8 @@ def update_graphs(n):
     # Ensure y-axis range is appropriate
     sentiment_fig.update_yaxes(range=[-1, 1])  # Sentiment should be between -1 and 1
 
-    # Last updated timestamp in CDT
-    last_updated = f"Last updated: {datetime.now(pytz.UTC).astimezone(cdt).strftime('%Y-%m-%d %I:%M:%S %p CDT')}"
+    # Last updated timestamp in UTC
+    last_updated = f"Last updated: {datetime.now(pytz.UTC).astimezone(utc).strftime('%Y-%m-%d %I:%M:%S %p UTC')}"
 
     return price_fig, sentiment_fig, last_updated
 
