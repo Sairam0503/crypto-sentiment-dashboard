@@ -48,4 +48,4 @@ This script generates a dual-axis line plot comparing Bitcoin price and sentimen
     - X-axis shows dates in `YYYY-MM-DD` format.
   - Includes gridlines for easier value tracking.
   - Saves the plot as `price_vs_sentiment.png`.
-`![Bitcoin Price vs. Sentiment Plot](static/price_vs_sentiment.png)`
+![Bitcoin Price vs. Sentiment Plot](static/price_vs_sentiment.png)
