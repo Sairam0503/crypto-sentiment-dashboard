@@ -18,7 +18,7 @@ reddit = praw.Reddit(
 )
 
 # Heroku Postgres connection
-DATABASE_URL = os.getenv("DATABASE_URL", "postgres://udn385mh2lkpp:p3ac1a38bd616e39abcb85bb86071b30e5ec6c49de222fa4fd5e518530e652d10@cbec45869p4jbu.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/db6st1ghre0bl6")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgres://u345apggsphrfg:p9f4989c39615ae63aea2056d2dfc39d1f67232e11fa3411ddbf58438b1e177e9@cf980tnnkgv1bp.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d55odaqnqfo7j7")
 
 # Modify DATABASE_URL for SQLAlchemy
 if DATABASE_URL.startswith("postgres://"):
