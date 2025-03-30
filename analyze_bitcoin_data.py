@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Load the Bitcoin price data from the CSV file
-df = pd.read_csv('bitcoin_prices.csv')
+df = pd.read_csv('bitcoin_prices_with_sentiment.csv')
 
 # Calculate basic statistics
 average_price = df['price'].mean()  # Average price
