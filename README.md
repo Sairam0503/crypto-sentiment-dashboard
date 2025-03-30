@@ -99,7 +99,7 @@ This script performs a time series analysis on Bitcoin price data, plotting pric
     - Sentiment score (green) on the right y-axis.
   - Calculates and displays daily price change statistics.
   - Saves the plot as `price_trends_with_sentiment.png`.
-![price trends](static/price_trends.png)
+![price trends](static/price_trends_with_sentiment.png)
 
 #### `arima_forecast.py`
 This script uses an ARIMA model to forecast Bitcoin prices for the next 5 days based on historical daily data from `crypto_data.db`.
