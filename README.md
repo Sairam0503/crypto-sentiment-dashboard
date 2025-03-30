@@ -17,7 +17,7 @@ This project is a comprehensive data pipeline and visualization tool that collec
 - **Visualization**: Created static plots (Matplotlib) and a live Dash dashboard (Plotly).
 - **Deployment**: Leveraged Heroku for real-time updates and web hosting.
 
-##Project Structure and Scripts
+## Project Structure and Scripts
 #### `get_bitcoin_data.py`
 This script fetches historical daily Bitcoin (BTC) price and volume data in USD from the CryptoCompare API, processes it, and saves it to both a CSV file and a SQLite database.
 
