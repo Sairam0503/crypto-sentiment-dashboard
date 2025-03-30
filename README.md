@@ -17,6 +17,7 @@ This project is a comprehensive data pipeline and visualization tool that collec
 - **Visualization**: Created static plots (Matplotlib) and a live Dash dashboard (Plotly).
 - **Deployment**: Leveraged Heroku for real-time updates and web hosting.
 
+##Project Structure and Scripts
 #### `get_bitcoin_data.py`
 This script fetches historical daily Bitcoin (BTC) price and volume data in USD from the CryptoCompare API, processes it, and saves it to both a CSV file and a SQLite database.
 
@@ -176,7 +177,7 @@ Run
     - login to heroku (heroku login)
     - heroku create <dashboard_name>
     - set dynos (heroku ps:scale web=1 worker=1 -a <dashboard_name>)
-    - add add-on plan (heroku-postgresql)
+    - add add-on plan (heroku-postgresql)(caution: Charges will apply)
     - get DATABASE URL (heroku config -a <dashboard_name>)
     - set set DATABASE_URL= (postgres://......./db6st1ghre0bl6)
 5. migrate_to_postgres.py
@@ -184,3 +185,6 @@ Run
 7. live_updates.py
 8. Heruko open
 
+## Live Demo
+Check out the live dashboard in action on my LinkedIn post:  
+[**Live Dashboard Demo on LinkedIn**](https://www.linkedin.com/posts/sai-ram-pulla-reddy-atikari-49a895227_hi-everyone-im-excited-to-share-a-live-activity-7312300677295153152-DkJD?utm_source=share&utm_medium=member_desktop&rcm=ACoAADjnzXYBVCifid73QePc2nBsVA6HOhAyPUA)
