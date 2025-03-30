@@ -1,6 +1,22 @@
 # Cryptocurrency Sentiment Dashboard
 A project to explore Bitcoin price trends and sentiment analysis.
 
+## Project Overview
+This project is a comprehensive data pipeline and visualization tool that collects, processes, and analyzes Bitcoin price and Reddit sentiment data to uncover trends and update live bitcoin to the dashboard. Built from scratch, it demonstrates end-to-end skills in data collection, transformation, storage, analysis, and deployment, culminating in a live, interactive dashboard hosted on Heroku. It processes 30 days of historical data and extends insights with real-time updates, showcasing proficiency in handling financial and social media datasets.
+
+- **Objective**: Explore the relationship between Bitcoin price fluctuations and social sentiment from `r/Bitcoin`, delivering insights through statistical models, visualizations, and a scalable web application.
+- **Key Features**:
+  - Historical and real-time data ingestion from APIs and Reddit.
+  - Data merging and migration across SQLite and Heroku Postgres.
+  - Time series analysis, predictive modeling, and interactive visualization.
+
+## Technical Highlights
+- **Data Collection**: Integrated CryptoCompare API for Bitcoin price/volume and PRAW for Reddit sentiment.
+- **Data Processing**: Merged datasets, handled missing values, and migrated data to a cloud database.
+- **Analysis**: Applied moving averages, ARIMA forecasting, and linear regression to derive insights.
+- **Visualization**: Created static plots (Matplotlib) and a live Dash dashboard (Plotly).
+- **Deployment**: Leveraged Heroku for real-time updates and web hosting.
+
 #### `get_bitcoin_data.py`
 This script fetches historical daily Bitcoin (BTC) price and volume data in USD from the CryptoCompare API, processes it, and saves it to both a CSV file and a SQLite database.
 
